@@ -1,0 +1,17 @@
+ <div class="mec-event-carousel-content">
+                        <?php if($this->include_events_times) echo MEC_kses::element($this->main->display_time($start_time, $end_time)); ?>
+                        <h4 class="mec-event-carousel-title"><?php echo MEC_kses::element($this->display_link($event)); ?><?php echo MEC_kses::embed($this->display_custom_data($event)); ?><?php echo MEC_kses::element($this->main->get_flags($event)); ?></h4>
+                        <?php echo MEC_kses::element($this->main->get_normal_labels($event, $display_label).$this->main->display_cancellation_reason($event, $reason_for_cancellation)); ?><?php do_action('mec_shortcode_virtual_badge', $event->data->ID); ?>
+                        <p class="mec-carousel-event-location"><span><?php echo (isset($location['name']) ? esc_html($location['name']) : ''); echo (isset($location['address']) ? '</span><br>'.esc_html($location['address']) : ''); ?></p>
+                        <p class="mec-event-excerpt">
+        <?php echo wp_trim_words( get_post_field( 'post_excerpt', $event->ID ), 30, '&hellip;' ); ?>
+    </p>
+                        <?php if($this->localtime) echo MEC_kses::full($this->main->module('local-time.type3', array('event' => $event))); ?>
+                        <div class="mec-event-button">
+	                        <p>
+	                                                <?php echo $this->display_link($event, ((is_array($event->data->tickets) and count($event->data->tickets) and !strpos($soldout, '%%soldout%%') and !$this->booking_button and !$this->main->is_expired($event)) ? $this->main->m('register_button', __('REGISTER', 'modern-events-calendar-lite')) : $this->main->m('view_detail', __('View Detail', 'modern-events-calendar-lite'))), 'mec-booking-button'); ?>
+                        </p>
+                        </div>
+                        <?php echo MEC_kses::form($this->booking_button($event)); ?>
+                    </div>
+                </div>
